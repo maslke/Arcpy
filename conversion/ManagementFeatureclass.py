@@ -6,8 +6,18 @@ connection = 'Database Connections\sdejrq@sdejrq.sde'
 arcpy.env.workspace = connection
 gdb = 'C:\\arcpy\\test2.gdb\\Test'
 fc = arcpy.ListFeatureClasses(None,None,'RES_10')
+
+#fc to geodatabase
 for f in fc:
-    print f
     arcpy.FeatureClassToGeodatabase_conversion(f,gdb)
 
-print 'ok'
+#fc to fc
+for f in fc:
+    arcpy.FeatureClassToFeatureClass_conversion(f,gdb,str(f),'"MAPID"=1')
+
+# fc to shp
+for f in fc:
+    arcpy.FeatureClassToShapefile_conversion(f,r'C:\\arcpy')
+
+
+
