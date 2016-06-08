@@ -10,10 +10,11 @@ for ds in names:
     fc = arcpy.ListFeatureClasses(None,None,ds)
     print fc
     for f in fc:
-        print f
         des = arcpy.Describe(f)
         if str(des.hasSpatialIndex) == 'True':
+            print 'delete spatial index:',str(f)
             arcpy.RemoveSpatialIndex_management(f)
+        print 'add spatial index:',str(f)
         arcpy.AddSpatialIndex_management(f)
         print str(f),'ok'
 
