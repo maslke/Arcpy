@@ -1,8 +1,19 @@
 # -*- coding:utf-8 -*-
 
 import arcpy
-
+# need to remove lock manually
 connection ='Database Connections/sdejrq@sde.sde'
 arcpy.env.workspace = connection
-arcpy.AddSpatialIndex_management('RES_10/MAP_JRQ_GRID_10')
+names=['RES_'+str(x) for x in range(11,24)]
+for ds in names:
+    print ds
+    fc = arcpy.ListFeatureClasses(None,None,ds)
+    print fc
+    for f in fc:
+        print f
+        des = arcpy.Describe(f)
+        if str(des.hasSpatialIndex) == 'True':
+            arcpy.RemoveSpatialIndex_management(f)
+        arcpy.AddSpatialIndex_management(f)
+        print str(f),'ok'
 
