@@ -1,8 +1,16 @@
 # -*- coding:utf-8 -*-
 
 import arcpy
+import cx_Oracle as oracle
 
-leftUp,rightDown = (122,23),(123,21)
+#去数据库获取要素集边界
+mapid = raw_input('input mapid:')
+conn = oracle.connect('sde','sde','tnsName')
+cursor = conn.cursor()
+cursor.execute('select xmin,ymin,xmax,ymax from bounds where mapid=:mapid',mapid=mapid)
+row = cursor.fetchone()
+
+leftUp,rightDown = (row[0],row[3]),(row[2],row[1])
 t = 0.0001
 
 pnt1 = arcpy.Point(leftUp[0]+t,leftUp[1]-t)
